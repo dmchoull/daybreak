@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.dmchoull.daybreak.ui.NewAlarmActivity;
+
 import javax.inject.Singleton;
 
 import dagger.Module;

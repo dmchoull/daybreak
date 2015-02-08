@@ -1,4 +1,4 @@
-package com.dmchoull.daybreak;
+package com.dmchoull.daybreak.ui;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TimePicker;
+
+import com.dmchoull.daybreak.AlarmReceiver;
+import com.dmchoull.daybreak.R;
 
 import java.util.Calendar;
 

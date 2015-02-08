@@ -1,4 +1,6 @@
-package com.dmchoull.daybreak;
+package com.dmchoull.daybreak.ui;
+
+import com.dmchoull.daybreak.ui.NewAlarmActivity;
 
 import org.junit.Before;
 import org.junit.Test;
