@@ -3,10 +3,8 @@ package com.dmchoull.daybreak;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +13,12 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import javax.inject.Inject;
 
-public class NewAlarmActivity extends ActionBarActivity {
-    private AlarmManager alarmManager;
+
+public class NewAlarmActivity extends DaybreakBaseActivity {
+    @Inject AlarmManager alarmManager;
+
     private PendingIntent alarmIntent;
 
     @Override
@@ -53,7 +54,6 @@ public class NewAlarmActivity extends ActionBarActivity {
         Integer hour = time.getCurrentHour();
         Integer minute = time.getCurrentMinute();
 
-        alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(getBaseContext(), 0, intent, 0);
 
