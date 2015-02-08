@@ -1,13 +1,13 @@
 package com.dmchoull.daybreak;
 
-import android.app.Application;
+import com.orm.SugarApp;
 
 import java.util.Arrays;
 import java.util.List;
 
 import dagger.ObjectGraph;
 
-public class DaybreakApplication extends Application implements Injector {
+public class DaybreakApplication extends SugarApp implements Injector {
     private ObjectGraph graph;
 
     @Override public void onCreate() {

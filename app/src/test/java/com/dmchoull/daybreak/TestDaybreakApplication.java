@@ -1,11 +1,11 @@
 package com.dmchoull.daybreak;
 
-import android.app.Application;
+import com.orm.SugarApp;
 
 import dagger.ObjectGraph;
 
 @SuppressWarnings("UnusedDeclaration")
-public class TestDaybreakApplication extends Application implements Injector {
+public class TestDaybreakApplication extends SugarApp implements Injector {
     private ObjectGraph graph;
 
     @Override public void onCreate() {

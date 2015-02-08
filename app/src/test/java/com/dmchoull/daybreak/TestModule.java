@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.dmchoull.daybreak.ui.NewAlarmActivity;
+import com.dmchoull.daybreak.ui.NewAlarmActivityTest;
 
 import javax.inject.Singleton;
 

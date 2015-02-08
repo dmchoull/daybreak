@@ -13,6 +13,7 @@ import android.widget.TimePicker;
 
 import com.dmchoull.daybreak.AlarmReceiver;
 import com.dmchoull.daybreak.R;
+import com.dmchoull.daybreak.models.Alarm;
 
 import java.util.Calendar;
 
@@ -69,6 +70,9 @@ public class NewAlarmActivity extends DaybreakBaseActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
+
+        Alarm alarm = new Alarm(calendar.getTimeInMillis());
+        alarm.save();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
