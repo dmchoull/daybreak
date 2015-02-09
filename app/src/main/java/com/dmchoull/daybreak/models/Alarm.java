@@ -5,10 +5,14 @@ import com.orm.SugarRecord;
 public class Alarm extends SugarRecord<Alarm> {
     long time;
 
-    public Alarm() {
+    @SuppressWarnings("UnusedDeclaration") public Alarm() {
     }
 
     public Alarm(long time) {
         this.time = time;
+    }
+
+    public long getTime() {
+        return time;
     }
 }

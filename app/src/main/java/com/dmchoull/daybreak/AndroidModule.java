@@ -21,6 +21,10 @@ public class AndroidModule {
         this.application = application;
     }
 
+    @Provides @Singleton Context provideApplicationContext() {
+        return application;
+    }
+
     @Provides @Singleton AlarmManager provideAlarmManager() {
         return (AlarmManager) application.getSystemService(Context.ALARM_SERVICE);
     }
