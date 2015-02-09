@@ -14,7 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -33,9 +33,9 @@ public class AlarmServiceTest {
 
     @Test
     public void createsAnAlarm() {
-        alarmService.create(8, 30);
+        Alarm alarm = alarmService.create(8, 30);
 
-        assertEquals(1, Alarm.count(Alarm.class));
+        assertNotNull("Alarm was not created", Alarm.findById(Alarm.class, alarm.getId()));
     }
 
     @Test

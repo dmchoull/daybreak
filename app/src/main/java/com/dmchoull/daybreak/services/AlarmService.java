@@ -24,11 +24,13 @@ public class AlarmService {
         this.alarmManager = alarmManager;
     }
 
-    public void create(Integer hour, Integer minute) {
+    public Alarm create(Integer hour, Integer minute) {
         Calendar calendar = getCalendar(hour, minute);
 
         Alarm alarm = new Alarm(calendar.getTimeInMillis());
         alarm.save();
+
+        return alarm;
     }
 
     private Calendar getCalendar(Integer hour, Integer minute) {

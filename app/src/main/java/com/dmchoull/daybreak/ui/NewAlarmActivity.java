@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TimePicker;
 
 import com.dmchoull.daybreak.R;
+import com.dmchoull.daybreak.models.Alarm;
 import com.dmchoull.daybreak.services.AlarmService;
 
 import javax.inject.Inject;
@@ -48,6 +49,7 @@ public class NewAlarmActivity extends DaybreakBaseActivity {
         Integer hour = time.getCurrentHour();
         Integer minute = time.getCurrentMinute();
 
-        alarmService.create(hour, minute);
+        Alarm alarm = alarmService.create(hour, minute);
+        alarmService.set(alarm);
     }
 }
