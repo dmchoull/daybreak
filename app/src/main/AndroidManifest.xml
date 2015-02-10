@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dmchoull.daybreak">
+          package="com.dmchoull.daybreak">
 
     <application
         android:name=".DaybreakApplication"
@@ -9,22 +9,34 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="DATABASE" android:value="daybreak.db" />
-        <meta-data android:name="VERSION" android:value="1" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.dmchoull.daybreak" />
+        <meta-data
+            android:name="DATABASE"
+            android:value="daybreak.db"/>
+        <meta-data
+            android:name="VERSION"
+            android:value="1"/>
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true"/>
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.dmchoull.daybreak"/>
 
         <activity
-            android:name=".ui.NewAlarmActivity"
+            android:name=".ui.AlarmListActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver" />
+        <activity
+            android:name=".ui.NewAlarmActivity">
+        </activity>
+
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

@@ -6,6 +6,8 @@ import android.content.Context;
 
 import com.dmchoull.daybreak.services.AlarmService;
 import com.dmchoull.daybreak.services.AlarmServiceTest;
+import com.dmchoull.daybreak.ui.AlarmListActivity;
+import com.dmchoull.daybreak.ui.AlarmListActivityTest;
 import com.dmchoull.daybreak.ui.NewAlarmActivity;
 import com.dmchoull.daybreak.ui.NewAlarmActivityTest;
 
@@ -20,6 +22,8 @@ import static org.mockito.Mockito.mock;
         injects = {
                 NewAlarmActivity.class,
                 NewAlarmActivityTest.class,
+                AlarmListActivity.class,
+                AlarmListActivityTest.class,
                 AlarmService.class,
                 AlarmServiceTest.class
         },
