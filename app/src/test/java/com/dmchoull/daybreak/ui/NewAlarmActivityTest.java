@@ -33,19 +33,19 @@ public class NewAlarmActivityTest {
     public void setUp() {
         TestHelper.init(this);
         NewAlarmActivity activity = Robolectric.buildActivity(NewAlarmActivity.class).create().start().resume().get();
-        newAlarmButton = (Button) activity.findViewById(R.id.new_alarm_button);
+        newAlarmButton = (Button) activity.findViewById(R.id.add_alarm_button);
         timePicker = (TimePicker) activity.findViewById(R.id.timePicker);
     }
 
     @Test
-    public void createsAlarmWhenNewAlarmButtonClicked() {
+    public void createsAlarmWhenAddAlarmButtonClicked() {
         newAlarmButton.performClick();
 
         verify(alarmService).create(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
     }
 
     @Test
-    public void setsAlarmWhenNewAlarmButtonClicked() {
+    public void setsAlarmWhenAddAlarmButtonClicked() {
         Alarm alarm = mock(Alarm.class);
         when(alarmService.create(anyInt(), anyInt())).thenReturn(alarm);
 
