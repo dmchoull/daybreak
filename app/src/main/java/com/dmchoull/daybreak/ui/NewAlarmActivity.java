@@ -1,5 +1,6 @@
 package com.dmchoull.daybreak.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,5 +52,8 @@ public class NewAlarmActivity extends DaybreakBaseActivity {
 
         Alarm alarm = alarmService.create(hour, minute);
         alarmService.set(alarm);
+
+        Intent intent = new Intent(this, AlarmListActivity.class);
+        startActivity(intent);
     }
 }
