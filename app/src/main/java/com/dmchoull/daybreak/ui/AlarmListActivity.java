@@ -6,16 +6,20 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.dmchoull.daybreak.R;
-import com.dmchoull.daybreak.models.Alarm;
+import com.dmchoull.daybreak.services.AlarmService;
+
+import javax.inject.Inject;
 
 public class AlarmListActivity extends DaybreakBaseActivity {
+    @Inject AlarmService alarmService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_list);
 
         ListView alarmList = (ListView) findViewById(R.id.alarm_list);
-        AlarmListAdapter adapter = new AlarmListAdapter(this, R.layout.alarm_list_item, Alarm.listAll(Alarm.class));
+        AlarmListAdapter adapter = new AlarmListAdapter(this, R.layout.alarm_list_item, alarmService.getAll());
         alarmList.setAdapter(adapter);
     }
 

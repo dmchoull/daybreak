@@ -11,6 +11,7 @@ import com.dmchoull.daybreak.AlarmReceiver;
 import com.dmchoull.daybreak.models.Alarm;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,5 +52,9 @@ public class AlarmService {
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime(), alarmIntent);
         }
+    }
+
+    public List<Alarm> getAll() {
+        return Alarm.listAll(Alarm.class);
     }
 }

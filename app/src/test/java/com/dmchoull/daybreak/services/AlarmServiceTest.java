@@ -14,6 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import javax.inject.Inject;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -44,5 +45,17 @@ public class AlarmServiceTest {
         alarmService.set(alarm);
 
         verify(alarmManager).set(eq(AlarmManager.RTC_WAKEUP), eq(1423445044113L), any(PendingIntent.class));
+    }
+
+    @Test
+    public void returnsAllAlarms() {
+        createAlarm();
+        createAlarm();
+
+        assertEquals(2, alarmService.getAll().size());
+    }
+
+    private void createAlarm() {
+        new Alarm(System.currentTimeMillis()).save();
     }
 }
