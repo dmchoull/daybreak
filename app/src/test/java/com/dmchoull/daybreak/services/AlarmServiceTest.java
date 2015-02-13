@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +38,19 @@ public class AlarmServiceTest {
     public void createsAnAlarm() {
         Alarm alarm = alarmService.create(8, 30);
 
-        assertNotNull("Alarm was not created", Alarm.findById(Alarm.class, alarm.getId()));
+        assertNotNull("Alarm was not created", alarm.getId());
+    }
+
+    @Test
+    public void setsTheCorrectTime() {
+        Alarm alarm = alarmService.create(8, 30);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(alarm.getTime());
+
+        assertEquals(8, calendar.get(Calendar.HOUR));
+        assertEquals(30, calendar.get(Calendar.MINUTE));
+        assertEquals(0, calendar.get(Calendar.SECOND));
     }
 
     @Test
