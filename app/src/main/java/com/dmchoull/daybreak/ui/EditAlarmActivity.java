@@ -19,14 +19,26 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
 
     @Inject AlarmService alarmService;
     private long alarmId = 0L;
+    private TimePicker time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_alarm);
 
+        time = (TimePicker) findViewById(R.id.alarm_time);
+
         if (getIntent() != null) {
             alarmId = getIntent().getLongExtra(EXTRA_ALARM_ID, 0L);
+            setTime();
+        }
+    }
+
+    private void setTime() {
+        if (alarmId > 0) {
+            Alarm alarm = Alarm.findById(Alarm.class, alarmId);
+            time.setCurrentHour(alarm.getHour());
+            time.setCurrentMinute(alarm.getMinute());
         }
     }
 
@@ -53,7 +65,6 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
     }
 
     public void saveAlarm(View view) {
-        TimePicker time = (TimePicker) findViewById(R.id.alarm_time);
         Integer hour = time.getCurrentHour();
         Integer minute = time.getCurrentMinute();
 

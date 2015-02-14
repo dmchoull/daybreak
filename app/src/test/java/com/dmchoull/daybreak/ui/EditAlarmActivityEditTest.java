@@ -17,6 +17,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import javax.inject.Inject;
 
+import static com.dmchoull.daybreak.TestFactory.createAlarm;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -30,13 +32,15 @@ public class EditAlarmActivityEditTest {
 
     private Button saveButton;
     private TimePicker timePicker;
+    private Alarm alarm;
 
     @Before
     public void setUp() {
         TestHelper.init(this);
 
+        alarm = createAlarm(6, 30);
         Intent intent = new Intent();
-        intent.putExtra(EditAlarmActivity.EXTRA_ALARM_ID, 1234L);
+        intent.putExtra(EditAlarmActivity.EXTRA_ALARM_ID, alarm.getId());
 
         EditAlarmActivity activity = Robolectric.buildActivity(EditAlarmActivity.class)
                 .withIntent(intent).create().start().resume().get();
@@ -45,10 +49,16 @@ public class EditAlarmActivityEditTest {
     }
 
     @Test
+    public void displaysCurrentAlarmTimeWhenLaunched() {
+        assertEquals(6, timePicker.getCurrentHour().intValue());
+        assertEquals(30, timePicker.getCurrentMinute().intValue());
+    }
+
+    @Test
     public void updatesAlarmWhenSaveAlarmButtonClicked() {
         saveButton.performClick();
 
-        verify(alarmService).update(1234L, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+        verify(alarmService).update(alarm.getId(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
     }
 
     @Test

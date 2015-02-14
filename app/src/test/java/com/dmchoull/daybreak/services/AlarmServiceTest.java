@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
+import static com.dmchoull.daybreak.TestFactory.createAlarm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -44,7 +45,7 @@ public class AlarmServiceTest {
 
     @Test
     public void updatesAlarm() {
-        Long id = createAlarm(12, 30);
+        Long id = createAlarm(12, 30).getId();
         alarmService.update(id, 5, 15);
 
         Alarm alarm = Alarm.findById(Alarm.class, id);
@@ -77,7 +78,7 @@ public class AlarmServiceTest {
 
     @Test
     public void deletesAlarm() {
-        Long id = createAlarm(12, 30);
+        Long id = createAlarm(12, 30).getId();
         alarmService.delete(id);
         assertNull("Alarm was not deleted", Alarm.findById(Alarm.class, id));
     }
@@ -88,18 +89,5 @@ public class AlarmServiceTest {
         createAlarm(17, 0);
 
         assertEquals(2, alarmService.getAll().size());
-    }
-
-    private Long createAlarm(int hour, int minute) {
-        return new Alarm(getTime(hour, minute)).save();
-    }
-
-    private long getTime(int hour, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTimeInMillis();
     }
 }
