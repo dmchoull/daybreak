@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TimePicker;
 
 import com.dmchoull.daybreak.R;
+import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.models.Alarm;
-import com.dmchoull.daybreak.services.AlarmService;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class EditAlarmActivity extends DaybreakBaseActivity {
     public static final String EXTRA_ALARM_ID = "ALARM_ID";
 
-    @Inject AlarmService alarmService;
+    @Inject AlarmHelper alarmHelper;
     private long alarmId = 0L;
     private TimePicker time;
 
@@ -70,7 +70,7 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
 
         Alarm alarm = createOrUpdateAlarm(hour, minute);
 
-        alarmService.set(alarm);
+        alarmHelper.set(alarm);
 
         Intent intent = new Intent(this, AlarmListActivity.class);
         startActivity(intent);
@@ -80,9 +80,9 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
         Alarm alarm;
 
         if (alarmId > 0) {
-            alarm = alarmService.update(alarmId, hour, minute);
+            alarm = alarmHelper.update(alarmId, hour, minute);
         } else {
-            alarm = alarmService.create(hour, minute);
+            alarm = alarmHelper.create(hour, minute);
         }
 
         return alarm;

@@ -7,8 +7,8 @@ import android.widget.TimePicker;
 
 import com.dmchoull.daybreak.R;
 import com.dmchoull.daybreak.TestHelper;
+import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.models.Alarm;
-import com.dmchoull.daybreak.services.AlarmService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class EditAlarmActivityNewTest {
-    @Inject AlarmService alarmService;
+    @Inject AlarmHelper alarmHelper;
 
     private EditAlarmActivity activity;
     private Button saveButton;
@@ -46,17 +46,17 @@ public class EditAlarmActivityNewTest {
     public void createsAlarmWhenSaveAlarmButtonClicked() {
         saveButton.performClick();
 
-        verify(alarmService).create(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+        verify(alarmHelper).create(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
     }
 
     @Test
     public void setsAlarmWhenSaveAlarmButtonClicked() {
         Alarm alarm = mock(Alarm.class);
-        when(alarmService.create(anyInt(), anyInt())).thenReturn(alarm);
+        when(alarmHelper.create(anyInt(), anyInt())).thenReturn(alarm);
 
         saveButton.performClick();
 
-        verify(alarmService).set(alarm);
+        verify(alarmHelper).set(alarm);
     }
 
     @Test

@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.dmchoull.daybreak.R;
 import com.dmchoull.daybreak.TestHelper;
+import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.models.Alarm;
-import com.dmchoull.daybreak.services.AlarmService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,15 +23,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.dmchoull.daybreak.TestFactory.mockAlarm;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.robolectric.Robolectric.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class AlarmListActivityTest {
-    @Inject AlarmService alarmService;
+    @Inject AlarmHelper alarmHelper;
 
     private AlarmListActivity activity;
     private ListView alarmList;
@@ -40,17 +40,11 @@ public class AlarmListActivityTest {
     public void setUp() {
         TestHelper.init(this);
 
-        List<Alarm> alarms = Arrays.asList(mockAlarm(1L), mockAlarm(2L));
-        when(alarmService.getAll()).thenReturn(alarms);
+        List<Alarm> alarms = Arrays.asList(mockAlarm(1L, null), mockAlarm(2L, null));
+        when(alarmHelper.getAll()).thenReturn(alarms);
 
         activity = Robolectric.buildActivity(AlarmListActivity.class).create().start().resume().visible().get();
         alarmList = (ListView) activity.findViewById(R.id.alarm_list);
-    }
-
-    private Alarm mockAlarm(Long id) {
-        Alarm alarm = mock(Alarm.class);
-        when(alarm.getId()).thenReturn(id);
-        return alarm;
     }
 
     @Test
@@ -79,11 +73,11 @@ public class AlarmListActivityTest {
     @Test
     public void deletesAlarm() {
         Button view = new Button(activity);
-        view.setTag(mockAlarm(1234L));
+        view.setTag(mockAlarm(1234L, null));
 
         activity.deleteAlarm(view);
 
-        verify(alarmService).delete(1234L);
+        verify(alarmHelper).delete(1234L);
     }
 
     @Test

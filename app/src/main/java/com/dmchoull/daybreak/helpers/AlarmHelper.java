@@ -1,4 +1,4 @@
-package com.dmchoull.daybreak.services;
+package com.dmchoull.daybreak.helpers;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -15,12 +15,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class AlarmService {
+public class AlarmHelper {
     private final Context context;
     private final AlarmManager alarmManager;
 
     @Inject
-    public AlarmService(Context context, AlarmManager alarmManager) {
+    public AlarmHelper(Context context, AlarmManager alarmManager) {
         this.context = context;
         this.alarmManager = alarmManager;
     }
@@ -51,7 +51,7 @@ public class AlarmService {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void set(Alarm alarm) {
         Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarm.getId().intValue(), intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTime(), alarmIntent);

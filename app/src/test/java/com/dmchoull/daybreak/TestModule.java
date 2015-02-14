@@ -4,8 +4,8 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.content.Context;
 
-import com.dmchoull.daybreak.services.AlarmService;
-import com.dmchoull.daybreak.services.AlarmServiceTest;
+import com.dmchoull.daybreak.helpers.AlarmHelper;
+import com.dmchoull.daybreak.helpers.AlarmHelperTest;
 import com.dmchoull.daybreak.ui.AlarmListActivity;
 import com.dmchoull.daybreak.ui.AlarmListActivityTest;
 import com.dmchoull.daybreak.ui.EditAlarmActivity;
@@ -26,8 +26,8 @@ import static org.mockito.Mockito.mock;
                 EditAlarmActivityEditTest.class,
                 AlarmListActivity.class,
                 AlarmListActivityTest.class,
-                AlarmService.class,
-                AlarmServiceTest.class
+                AlarmHelper.class,
+                AlarmHelperTest.class
         },
         overrides = true
 )
@@ -46,7 +46,7 @@ public class TestModule {
         return mock(AlarmManager.class);
     }
 
-    @Provides @Singleton AlarmService provideAlarmService() {
-        return mock(AlarmService.class);
+    @Provides @Singleton AlarmHelper provideAlarmHelper() {
+        return mock(AlarmHelper.class);
     }
 }
