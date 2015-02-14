@@ -18,10 +18,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,9 +37,16 @@ public class AlarmListActivityTest {
     public void setUp() {
         TestHelper.init(this);
 
-        when(alarmService.getAll()).thenReturn(Arrays.asList(new Alarm(System.currentTimeMillis()), new Alarm(System.currentTimeMillis())));
+        List<Alarm> alarms = Arrays.asList(mockAlarm(1L), mockAlarm(2L));
+        when(alarmService.getAll()).thenReturn(alarms);
 
         activity = Robolectric.buildActivity(AlarmListActivity.class).create().start().resume().visible().get();
+    }
+
+    private Alarm mockAlarm(Long id) {
+        Alarm alarm = mock(Alarm.class);
+        when(alarm.getId()).thenReturn(id);
+        return alarm;
     }
 
     @Test
@@ -59,7 +68,8 @@ public class AlarmListActivityTest {
     @Test
     public void deletesAlarm() {
         Button view = new Button(activity);
-        view.setTag(1234L);
+        view.setTag(mockAlarm(1234L));
+
         activity.deleteAlarm(view);
 
         verify(alarmService).delete(1234L);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dmchoull.daybreak.R;
@@ -20,21 +21,43 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         this.context = context;
     }
 
+    static class ViewHolder {
+        TextView text;
+        Button deleteButton;
+    }
+
     @Override public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = convertView;
+        ViewHolder viewHolder;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            itemView = inflater.inflate(R.layout.alarm_list_item, parent, false);
+            itemView = createView(parent);
+            viewHolder = buildViewHolder(itemView);
+            itemView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        TextView textView = (TextView) itemView.findViewById(R.id.alarm_list_item_text);
-        textView.setText(getItem(position).toString());
-
-        View deleteButton = itemView.findViewById(R.id.delete_alarm_button);
-        deleteButton.setTag(getItemId(position));
+        updateView(position, viewHolder);
 
         return itemView;
+    }
+
+    private View createView(ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return inflater.inflate(R.layout.alarm_list_item, parent, false);
+    }
+
+    private ViewHolder buildViewHolder(View itemView) {
+        ViewHolder viewHolder = new ViewHolder();
+        viewHolder.text = (TextView) itemView.findViewById(R.id.alarm_list_item_text);
+        viewHolder.deleteButton = (Button) itemView.findViewById(R.id.delete_alarm_button);
+        return viewHolder;
+    }
+
+    private void updateView(int position, ViewHolder viewHolder) {
+        viewHolder.text.setText(getItem(position).toString());
+        viewHolder.deleteButton.setTag(getItem(position));
     }
 
     @Override public long getItemId(int position) {
