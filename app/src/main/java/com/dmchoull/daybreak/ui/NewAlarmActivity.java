@@ -15,6 +15,8 @@ import javax.inject.Inject;
 
 
 public class NewAlarmActivity extends DaybreakBaseActivity {
+    public static final String EXTRA_ALARM_ID = "ALARM_ID";
+
     @Inject AlarmService alarmService;
 
     @Override

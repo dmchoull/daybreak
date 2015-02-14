@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowListView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,12 +27,14 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robolectric.Robolectric.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class AlarmListActivityTest {
     @Inject AlarmService alarmService;
 
     private AlarmListActivity activity;
+    private ListView alarmList;
 
     @Before
     public void setUp() {
@@ -41,6 +44,7 @@ public class AlarmListActivityTest {
         when(alarmService.getAll()).thenReturn(alarms);
 
         activity = Robolectric.buildActivity(AlarmListActivity.class).create().start().resume().visible().get();
+        alarmList = (ListView) activity.findViewById(R.id.alarm_list);
     }
 
     private Alarm mockAlarm(Long id) {
@@ -51,7 +55,6 @@ public class AlarmListActivityTest {
 
     @Test
     public void displaysAllAlarms() {
-        ListView alarmList = (ListView) activity.findViewById(R.id.alarm_list);
         assertEquals(2, alarmList.getAdapter().getCount());
     }
 
@@ -60,9 +63,17 @@ public class AlarmListActivityTest {
         Button addAlarm = (Button) activity.findViewById(R.id.new_alarm_button);
         addAlarm.performClick();
 
-        ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
-        Intent startedActivity = shadowActivity.getNextStartedActivity();
-        assertEquals(startedActivity.getComponent(), new ComponentName(activity, NewAlarmActivity.class));
+        Intent startedActivity = getStartedActivity();
+        assertActivityStarted(startedActivity, NewAlarmActivity.class);
+    }
+
+    private Intent getStartedActivity() {
+        ShadowActivity shadowActivity = shadowOf(activity);
+        return shadowActivity.getNextStartedActivity();
+    }
+
+    private void assertActivityStarted(Intent startedActivity, Class activityClass) {
+        assertEquals(startedActivity.getComponent(), new ComponentName(activity, activityClass));
     }
 
     @Test
@@ -73,5 +84,15 @@ public class AlarmListActivityTest {
         activity.deleteAlarm(view);
 
         verify(alarmService).delete(1234L);
+    }
+
+    @Test
+    public void launchesActivityToEditExistingAlarm() {
+        ShadowListView shadowListView = shadowOf(alarmList);
+        shadowListView.performItemClick(0);
+
+        Intent startedActivity = getStartedActivity();
+        assertActivityStarted(startedActivity, NewAlarmActivity.class);
+        assertEquals(1L, startedActivity.getLongExtra(NewAlarmActivity.EXTRA_ALARM_ID, -1L));
     }
 }

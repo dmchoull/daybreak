@@ -3,6 +3,7 @@ package com.dmchoull.daybreak.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dmchoull.daybreak.R;
@@ -23,6 +24,13 @@ public class AlarmListActivity extends DaybreakBaseActivity {
         ListView alarmList = (ListView) findViewById(R.id.alarm_list);
         adapter = new AlarmListAdapter(this, R.layout.alarm_list_item, alarmService.getAll());
         alarmList.setAdapter(adapter);
+
+        alarmList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showAlarm(id);
+            }
+        });
     }
 
     public void addAlarm(View view) {
@@ -34,5 +42,11 @@ public class AlarmListActivity extends DaybreakBaseActivity {
         Alarm alarm = (Alarm) view.getTag();
         alarmService.delete(alarm.getId());
         adapter.remove(alarm);
+    }
+
+    public void showAlarm(long id) {
+        Intent intent = new Intent(this, NewAlarmActivity.class);
+        intent.putExtra(NewAlarmActivity.EXTRA_ALARM_ID, id);
+        startActivity(intent);
     }
 }
