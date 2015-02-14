@@ -26,21 +26,26 @@ public class AlarmService {
     }
 
     public Alarm create(Integer hour, Integer minute) {
-        Calendar calendar = getCalendar(hour, minute);
-
-        Alarm alarm = new Alarm(calendar.getTimeInMillis());
+        Alarm alarm = new Alarm(getTime(hour, minute));
         alarm.save();
 
         return alarm;
     }
 
-    private Calendar getCalendar(Integer hour, Integer minute) {
+    private long getTime(Integer hour, Integer minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        return calendar;
+        return calendar.getTimeInMillis();
+    }
+
+    public Alarm update(Long id, Integer hour, Integer minute) {
+        Alarm alarm = Alarm.findById(Alarm.class, id);
+        alarm.setTime(getTime(hour, minute));
+        alarm.save();
+        return alarm;
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

@@ -9,7 +9,8 @@ import com.dmchoull.daybreak.services.AlarmServiceTest;
 import com.dmchoull.daybreak.ui.AlarmListActivity;
 import com.dmchoull.daybreak.ui.AlarmListActivityTest;
 import com.dmchoull.daybreak.ui.EditAlarmActivity;
-import com.dmchoull.daybreak.ui.EditAlarmActivityTest;
+import com.dmchoull.daybreak.ui.EditAlarmActivityEditTest;
+import com.dmchoull.daybreak.ui.EditAlarmActivityNewTest;
 
 import javax.inject.Singleton;
 
@@ -21,7 +22,8 @@ import static org.mockito.Mockito.mock;
 @Module(
         injects = {
                 EditAlarmActivity.class,
-                EditAlarmActivityTest.class,
+                EditAlarmActivityNewTest.class,
+                EditAlarmActivityEditTest.class,
                 AlarmListActivity.class,
                 AlarmListActivityTest.class,
                 AlarmService.class,

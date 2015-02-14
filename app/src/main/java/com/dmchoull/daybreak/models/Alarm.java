@@ -20,6 +20,10 @@ public class Alarm extends SugarRecord<Alarm> {
         return time;
     }
 
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public String toString() {
         Date date = new Date(time);
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss");

@@ -36,10 +36,23 @@ public class AlarmServiceTest {
     }
 
     @Test
-    public void createsAnAlarm() {
+    public void createsAlarm() {
         Alarm alarm = alarmService.create(8, 30);
 
         assertNotNull("Alarm was not created", alarm.getId());
+    }
+
+    @Test
+    public void updatesAlarm() {
+        Long id = createAlarm(12, 30);
+        alarmService.update(id, 5, 15);
+
+        Alarm alarm = Alarm.findById(Alarm.class, id);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(alarm.getTime());
+
+        assertEquals(5, calendar.get(Calendar.HOUR));
+        assertEquals(15, calendar.get(Calendar.MINUTE));
     }
 
     @Test
@@ -64,20 +77,29 @@ public class AlarmServiceTest {
 
     @Test
     public void deletesAlarm() {
-        Long id = createAlarm();
+        Long id = createAlarm(12, 30);
         alarmService.delete(id);
         assertNull("Alarm was not deleted", Alarm.findById(Alarm.class, id));
     }
 
     @Test
     public void returnsAllAlarms() {
-        createAlarm();
-        createAlarm();
+        createAlarm(12, 30);
+        createAlarm(17, 0);
 
         assertEquals(2, alarmService.getAll().size());
     }
 
-    private Long createAlarm() {
-        return new Alarm(System.currentTimeMillis()).save();
+    private Long createAlarm(int hour, int minute) {
+        return new Alarm(getTime(hour, minute)).save();
+    }
+
+    private long getTime(int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTimeInMillis();
     }
 }

@@ -18,11 +18,16 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
     public static final String EXTRA_ALARM_ID = "ALARM_ID";
 
     @Inject AlarmService alarmService;
+    private long alarmId = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_alarm);
+
+        if (getIntent() != null) {
+            alarmId = getIntent().getLongExtra(EXTRA_ALARM_ID, 0L);
+        }
     }
 
     @Override
@@ -52,10 +57,23 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
         Integer hour = time.getCurrentHour();
         Integer minute = time.getCurrentMinute();
 
-        Alarm alarm = alarmService.create(hour, minute);
+        Alarm alarm = createOrUpdateAlarm(hour, minute);
+
         alarmService.set(alarm);
 
         Intent intent = new Intent(this, AlarmListActivity.class);
         startActivity(intent);
+    }
+
+    private Alarm createOrUpdateAlarm(Integer hour, Integer minute) {
+        Alarm alarm;
+
+        if (alarmId > 0) {
+            alarm = alarmService.update(alarmId, hour, minute);
+        } else {
+            alarm = alarmService.create(hour, minute);
+        }
+
+        return alarm;
     }
 }
