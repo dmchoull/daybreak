@@ -14,7 +14,7 @@ import com.dmchoull.daybreak.services.AlarmService;
 import javax.inject.Inject;
 
 
-public class NewAlarmActivity extends DaybreakBaseActivity {
+public class EditAlarmActivity extends DaybreakBaseActivity {
     public static final String EXTRA_ALARM_ID = "ALARM_ID";
 
     @Inject AlarmService alarmService;
@@ -22,13 +22,13 @@ public class NewAlarmActivity extends DaybreakBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_alarm);
+        setContentView(R.layout.edit_alarm);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.new_alarm, menu);
+        getMenuInflater().inflate(R.menu.edit_alarm, menu);
         return true;
     }
 
@@ -47,8 +47,8 @@ public class NewAlarmActivity extends DaybreakBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newAlarm(View view) {
-        TimePicker time = (TimePicker) findViewById(R.id.timePicker);
+    public void saveAlarm(View view) {
+        TimePicker time = (TimePicker) findViewById(R.id.alarm_time);
         Integer hour = time.getCurrentHour();
         Integer minute = time.getCurrentMinute();
 

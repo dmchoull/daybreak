@@ -2,13 +2,13 @@ package com.dmchoull.daybreak;
 
 import com.dmchoull.daybreak.services.AlarmService;
 import com.dmchoull.daybreak.ui.AlarmListActivity;
-import com.dmchoull.daybreak.ui.NewAlarmActivity;
+import com.dmchoull.daybreak.ui.EditAlarmActivity;
 
 import dagger.Module;
 
 @Module(
         injects = {
-                NewAlarmActivity.class,
+                EditAlarmActivity.class,
                 AlarmListActivity.class,
                 AlarmService.class
         },

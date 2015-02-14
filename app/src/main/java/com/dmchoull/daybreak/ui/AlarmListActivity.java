@@ -34,7 +34,7 @@ public class AlarmListActivity extends DaybreakBaseActivity {
     }
 
     public void addAlarm(View view) {
-        Intent intent = new Intent(this, NewAlarmActivity.class);
+        Intent intent = new Intent(this, EditAlarmActivity.class);
         startActivity(intent);
     }
 
@@ -45,8 +45,8 @@ public class AlarmListActivity extends DaybreakBaseActivity {
     }
 
     public void showAlarm(long id) {
-        Intent intent = new Intent(this, NewAlarmActivity.class);
-        intent.putExtra(NewAlarmActivity.EXTRA_ALARM_ID, id);
+        Intent intent = new Intent(this, EditAlarmActivity.class);
+        intent.putExtra(EditAlarmActivity.EXTRA_ALARM_ID, id);
         startActivity(intent);
     }
 }

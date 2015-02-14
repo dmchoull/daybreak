@@ -64,7 +64,7 @@ public class AlarmListActivityTest {
         addAlarm.performClick();
 
         Intent startedActivity = getStartedActivity();
-        assertActivityStarted(startedActivity, NewAlarmActivity.class);
+        assertActivityStarted(startedActivity, EditAlarmActivity.class);
     }
 
     private Intent getStartedActivity() {
@@ -92,7 +92,7 @@ public class AlarmListActivityTest {
         shadowListView.performItemClick(0);
 
         Intent startedActivity = getStartedActivity();
-        assertActivityStarted(startedActivity, NewAlarmActivity.class);
-        assertEquals(1L, startedActivity.getLongExtra(NewAlarmActivity.EXTRA_ALARM_ID, -1L));
+        assertActivityStarted(startedActivity, EditAlarmActivity.class);
+        assertEquals(1L, startedActivity.getLongExtra(EditAlarmActivity.EXTRA_ALARM_ID, -1L));
     }
 }

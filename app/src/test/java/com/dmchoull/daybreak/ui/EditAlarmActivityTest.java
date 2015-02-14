@@ -27,24 +27,24 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(RobolectricTestRunner.class)
-public class NewAlarmActivityTest {
+public class EditAlarmActivityTest {
     @Inject AlarmService alarmService;
 
-    private NewAlarmActivity activity;
-    private Button newAlarmButton;
+    private EditAlarmActivity activity;
+    private Button saveButton;
     private TimePicker timePicker;
 
     @Before
     public void setUp() {
         TestHelper.init(this);
-        activity = Robolectric.buildActivity(NewAlarmActivity.class).create().start().resume().get();
-        newAlarmButton = (Button) activity.findViewById(R.id.add_alarm_button);
-        timePicker = (TimePicker) activity.findViewById(R.id.timePicker);
+        activity = Robolectric.buildActivity(EditAlarmActivity.class).create().start().resume().get();
+        saveButton = (Button) activity.findViewById(R.id.save_alarm_button);
+        timePicker = (TimePicker) activity.findViewById(R.id.alarm_time);
     }
 
     @Test
     public void createsAlarmWhenAddAlarmButtonClicked() {
-        newAlarmButton.performClick();
+        saveButton.performClick();
 
         verify(alarmService).create(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
     }
@@ -54,14 +54,14 @@ public class NewAlarmActivityTest {
         Alarm alarm = mock(Alarm.class);
         when(alarmService.create(anyInt(), anyInt())).thenReturn(alarm);
 
-        newAlarmButton.performClick();
+        saveButton.performClick();
 
         verify(alarmService).set(alarm);
     }
 
     @Test
     public void launchesAlarmListActivityAfterAlarmCreated() {
-        newAlarmButton.performClick();
+        saveButton.performClick();
 
         ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
         Intent startedActivity = shadowActivity.getNextStartedActivity();
