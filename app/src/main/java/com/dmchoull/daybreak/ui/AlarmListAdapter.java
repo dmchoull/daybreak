@@ -31,6 +31,13 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         TextView textView = (TextView) itemView.findViewById(R.id.alarm_list_item_text);
         textView.setText(getItem(position).toString());
 
+        View deleteButton = itemView.findViewById(R.id.delete_alarm_button);
+        deleteButton.setTag(getItemId(position));
+
         return itemView;
+    }
+
+    @Override public long getItemId(int position) {
+        return getItem(position).getId();
     }
 }

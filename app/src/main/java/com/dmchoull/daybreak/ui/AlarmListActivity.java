@@ -27,4 +27,9 @@ public class AlarmListActivity extends DaybreakBaseActivity {
         Intent intent = new Intent(this, NewAlarmActivity.class);
         startActivity(intent);
     }
+
+    public void deleteAlarm(View view) {
+        Long alarmId = (Long) view.getTag();
+        alarmService.delete(alarmId);
+    }
 }

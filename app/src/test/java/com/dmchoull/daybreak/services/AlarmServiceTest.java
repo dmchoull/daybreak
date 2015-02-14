@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -62,6 +63,13 @@ public class AlarmServiceTest {
     }
 
     @Test
+    public void deletesAlarm() {
+        Long id = createAlarm();
+        alarmService.delete(id);
+        assertNull("Alarm was not deleted", Alarm.findById(Alarm.class, id));
+    }
+
+    @Test
     public void returnsAllAlarms() {
         createAlarm();
         createAlarm();
@@ -69,7 +77,7 @@ public class AlarmServiceTest {
         assertEquals(2, alarmService.getAll().size());
     }
 
-    private void createAlarm() {
-        new Alarm(System.currentTimeMillis()).save();
+    private Long createAlarm() {
+        return new Alarm(System.currentTimeMillis()).save();
     }
 }

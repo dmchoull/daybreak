@@ -22,6 +22,7 @@ import java.util.Arrays;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
@@ -36,7 +37,7 @@ public class AlarmListActivityTest {
 
         when(alarmService.getAll()).thenReturn(Arrays.asList(new Alarm(System.currentTimeMillis()), new Alarm(System.currentTimeMillis())));
 
-        activity = Robolectric.buildActivity(AlarmListActivity.class).create().start().resume().get();
+        activity = Robolectric.buildActivity(AlarmListActivity.class).create().start().resume().visible().get();
     }
 
     @Test
@@ -53,5 +54,14 @@ public class AlarmListActivityTest {
         ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
         Intent startedActivity = shadowActivity.getNextStartedActivity();
         assertEquals(startedActivity.getComponent(), new ComponentName(activity, NewAlarmActivity.class));
+    }
+
+    @Test
+    public void deletesAlarm() {
+        Button view = new Button(activity);
+        view.setTag(1234L);
+        activity.deleteAlarm(view);
+
+        verify(alarmService).delete(1234L);
     }
 }

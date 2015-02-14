@@ -55,6 +55,10 @@ public class AlarmService {
         }
     }
 
+    public void delete(Long id) {
+        Alarm.deleteAll(Alarm.class, "id = ?", id.toString());
+    }
+
     public List<Alarm> getAll() {
         return Alarm.listAll(Alarm.class);
     }
