@@ -50,8 +50,7 @@ public class AlarmHelper {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void set(Alarm alarm) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarm.getId().intValue(), intent, 0);
+        PendingIntent alarmIntent = createPendingIntent(alarm.getId());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTime(), alarmIntent);
@@ -60,7 +59,15 @@ public class AlarmHelper {
         }
     }
 
+    private PendingIntent createPendingIntent(Long id) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        return PendingIntent.getBroadcast(context, id.intValue(), intent, 0);
+    }
+
     public void delete(Long id) {
+        PendingIntent alarmIntent = createPendingIntent(id);
+        alarmManager.cancel(alarmIntent);
+
         Alarm.deleteAll(Alarm.class, "id = ?", id.toString());
     }
 

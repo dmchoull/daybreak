@@ -85,6 +85,13 @@ public class AlarmHelperTest {
     }
 
     @Test
+    public void cancelsDeletedAlarm() {
+        Long id = createAlarm(12, 30).getId();
+        alarmHelper.delete(id);
+        verify(alarmManager).cancel(any(PendingIntent.class));
+    }
+
+    @Test
     public void returnsAllAlarms() {
         createAlarm(12, 30);
         createAlarm(17, 0);
