@@ -10,7 +10,8 @@ import android.os.Build;
 import com.dmchoull.daybreak.AlarmReceiver;
 import com.dmchoull.daybreak.models.Alarm;
 
-import java.util.Calendar;
+import org.joda.time.MutableDateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,12 +34,11 @@ public class AlarmHelper {
     }
 
     private long getTime(Integer hour, Integer minute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTimeInMillis();
+        MutableDateTime time = MutableDateTime.now();
+        time.setHourOfDay(hour);
+        time.setMinuteOfHour(minute);
+        time.setSecondOfMinute(0);
+        return time.getMillis();
     }
 
     public Alarm update(Long id, Integer hour, Integer minute) {

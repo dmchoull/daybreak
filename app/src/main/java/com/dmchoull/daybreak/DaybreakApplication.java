@@ -2,6 +2,8 @@ package com.dmchoull.daybreak;
 
 import com.orm.SugarApp;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class DaybreakApplication extends SugarApp implements Injector {
 
     @Override public void onCreate() {
         super.onCreate();
-
+        JodaTimeAndroid.init(this);
         graph = ObjectGraph.create(getModules().toArray());
     }
 

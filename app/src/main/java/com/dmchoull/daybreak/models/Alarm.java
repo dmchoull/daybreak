@@ -2,9 +2,10 @@ package com.dmchoull.daybreak.models;
 
 import com.orm.SugarRecord;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Alarm extends SugarRecord<Alarm> {
@@ -18,17 +19,11 @@ public class Alarm extends SugarRecord<Alarm> {
     }
 
     public int getHour() {
-        return getCalendar().get(Calendar.HOUR_OF_DAY);
-    }
-
-    private Calendar getCalendar() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        return calendar;
+        return new DateTime(time).getHourOfDay();
     }
 
     public int getMinute() {
-        return getCalendar().get(Calendar.MINUTE);
+        return new DateTime(time).getMinuteOfHour();
     }
 
     public long getTime() {

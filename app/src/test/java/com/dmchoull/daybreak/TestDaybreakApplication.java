@@ -2,6 +2,8 @@ package com.dmchoull.daybreak;
 
 import com.orm.SugarApp;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import dagger.ObjectGraph;
 
 @SuppressWarnings("UnusedDeclaration")
@@ -10,7 +12,7 @@ public class TestDaybreakApplication extends SugarApp implements Injector {
 
     @Override public void onCreate() {
         super.onCreate();
-
+        JodaTimeAndroid.init(this);
         graph = ObjectGraph.create(new TestModule(this));
     }
 

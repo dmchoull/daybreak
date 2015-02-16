@@ -6,13 +6,12 @@ import android.app.PendingIntent;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.models.Alarm;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -50,23 +49,21 @@ public class AlarmHelperTest {
         alarmHelper.update(id, 5, 15);
 
         Alarm alarm = Alarm.findById(Alarm.class, id);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(alarm.getTime());
+        DateTime alarmTime = new DateTime(alarm.getTime());
 
-        assertEquals(5, calendar.get(Calendar.HOUR));
-        assertEquals(15, calendar.get(Calendar.MINUTE));
+        assertEquals(5, alarmTime.getHourOfDay());
+        assertEquals(15, alarmTime.getMinuteOfHour());
     }
 
     @Test
     public void setsTheCorrectTime() {
-        Alarm alarm = alarmHelper.create(8, 30);
+        Alarm alarm = alarmHelper.create(16, 30);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(alarm.getTime());
+        DateTime time = new DateTime(alarm.getTime());
 
-        assertEquals(8, calendar.get(Calendar.HOUR));
-        assertEquals(30, calendar.get(Calendar.MINUTE));
-        assertEquals(0, calendar.get(Calendar.SECOND));
+        assertEquals(16, time.getHourOfDay());
+        assertEquals(30, time.getMinuteOfHour());
+        assertEquals(0, time.getSecondOfMinute());
     }
 
     @Test
