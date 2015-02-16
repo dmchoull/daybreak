@@ -18,13 +18,12 @@ import org.robolectric.RobolectricTestRunner;
 import javax.inject.Inject;
 
 import static com.dmchoull.daybreak.TestFactory.createAlarm;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 @RunWith(RobolectricTestRunner.class)
 public class EditAlarmActivityEditTest {
@@ -50,8 +49,8 @@ public class EditAlarmActivityEditTest {
 
     @Test
     public void displaysCurrentAlarmTimeWhenLaunched() {
-        assertEquals(6, timePicker.getCurrentHour().intValue());
-        assertEquals(30, timePicker.getCurrentMinute().intValue());
+        assertThat(timePicker.getCurrentHour().intValue()).isEqualTo(6);
+        assertThat(timePicker.getCurrentMinute().intValue()).isEqualTo(30);
     }
 
     @Test

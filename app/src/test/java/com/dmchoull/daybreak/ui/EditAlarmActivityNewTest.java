@@ -19,7 +19,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -65,6 +65,6 @@ public class EditAlarmActivityNewTest {
 
         ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
         Intent startedActivity = shadowActivity.getNextStartedActivity();
-        assertEquals(startedActivity.getComponent(), new ComponentName(activity, AlarmListActivity.class));
+        assertThat(startedActivity.getComponent()).isEqualTo(new ComponentName(activity, AlarmListActivity.class));
     }
 }

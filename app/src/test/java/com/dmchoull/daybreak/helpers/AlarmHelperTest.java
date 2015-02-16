@@ -17,9 +17,7 @@ import javax.inject.Inject;
 
 import static com.dmchoull.daybreak.TestFactory.createAlarm;
 import static com.dmchoull.daybreak.TestFactory.mockAlarm;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -40,7 +38,7 @@ public class AlarmHelperTest {
     public void createsAlarm() {
         Alarm alarm = alarmHelper.create(8, 30);
 
-        assertNotNull("Alarm was not created", alarm.getId());
+        assertThat(alarm.getId()).isNotNull();
     }
 
     @Test
@@ -51,8 +49,8 @@ public class AlarmHelperTest {
         Alarm alarm = Alarm.findById(Alarm.class, id);
         DateTime alarmTime = new DateTime(alarm.getTime());
 
-        assertEquals(5, alarmTime.getHourOfDay());
-        assertEquals(15, alarmTime.getMinuteOfHour());
+        assertThat(alarmTime.getHourOfDay()).isEqualTo(5);
+        assertThat(alarmTime.getMinuteOfHour()).isEqualTo(15);
     }
 
     @Test
@@ -61,9 +59,9 @@ public class AlarmHelperTest {
 
         DateTime time = new DateTime(alarm.getTime());
 
-        assertEquals(16, time.getHourOfDay());
-        assertEquals(30, time.getMinuteOfHour());
-        assertEquals(0, time.getSecondOfMinute());
+        assertThat(time.getHourOfDay()).isEqualTo(16);
+        assertThat(time.getMinuteOfHour()).isEqualTo(30);
+        assertThat(time.getSecondOfMinute()).isEqualTo(0);
     }
 
     @Test
@@ -78,7 +76,7 @@ public class AlarmHelperTest {
     public void deletesAlarm() {
         Long id = createAlarm(12, 30).getId();
         alarmHelper.delete(id);
-        assertNull("Alarm was not deleted", Alarm.findById(Alarm.class, id));
+        assertThat(Alarm.findById(Alarm.class, id)).isNull();
     }
 
     @Test
@@ -93,6 +91,6 @@ public class AlarmHelperTest {
         createAlarm(12, 30);
         createAlarm(17, 0);
 
-        assertEquals(2, alarmHelper.getAll().size());
+        assertThat(alarmHelper.getAll().size()).isEqualTo(2);
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static com.dmchoull.daybreak.TestFactory.mockAlarm;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.robolectric.Robolectric.shadowOf;
@@ -49,7 +49,7 @@ public class AlarmListActivityTest {
 
     @Test
     public void displaysAllAlarms() {
-        assertEquals(2, alarmList.getAdapter().getCount());
+        assertThat(alarmList.getAdapter().getCount()).isEqualTo(2);
     }
 
     @Test
@@ -66,8 +66,8 @@ public class AlarmListActivityTest {
         return shadowActivity.getNextStartedActivity();
     }
 
-    private void assertActivityStarted(Intent startedActivity, Class activityClass) {
-        assertEquals(startedActivity.getComponent(), new ComponentName(activity, activityClass));
+    private void assertActivityStarted(Intent startedActivity, Class expectedClass) {
+        assertThat(startedActivity.getComponent()).isEqualTo(new ComponentName(activity, expectedClass));
     }
 
     @Test
@@ -87,6 +87,6 @@ public class AlarmListActivityTest {
 
         Intent startedActivity = getStartedActivity();
         assertActivityStarted(startedActivity, EditAlarmActivity.class);
-        assertEquals(1L, startedActivity.getLongExtra(EditAlarmActivity.EXTRA_ALARM_ID, -1L));
+        assertThat(startedActivity.getLongExtra(EditAlarmActivity.EXTRA_ALARM_ID, -1L)).isEqualTo(1L);
     }
 }

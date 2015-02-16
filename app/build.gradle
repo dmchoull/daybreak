@@ -34,4 +34,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.0.3-beta'
     testCompile 'com.google.dexmaker:dexmaker:1.2'
+    testCompile 'com.squareup.assertj:assertj-android:1.0.0'
 }
