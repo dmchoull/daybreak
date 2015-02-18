@@ -36,8 +36,14 @@ public class Alarm extends SugarRecord<Alarm> {
         this.minute = minute;
     }
 
-    public long getTimeInMillis() {
-        return getDateTime().getMillis();
+    public long getNextAlarmTime() {
+        DateTime alarmTime = getDateTime();
+
+        if (alarmTime.isBeforeNow()) {
+            return alarmTime.plusDays(1).getMillis();
+        } else {
+            return alarmTime.getMillis();
+        }
     }
 
     private DateTime getDateTime() {

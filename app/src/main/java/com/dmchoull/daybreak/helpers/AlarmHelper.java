@@ -43,9 +43,9 @@ public class AlarmHelper {
         PendingIntent alarmIntent = createPendingIntent(alarm.getId());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), alarmIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getNextAlarmTime(), alarmIntent);
         } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), alarmIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getNextAlarmTime(), alarmIntent);
         }
     }
 

@@ -20,7 +20,7 @@ public class TestFactory {
             time = System.currentTimeMillis();
         }
 
-        when(alarm.getTimeInMillis()).thenReturn(time);
+        when(alarm.getNextAlarmTime()).thenReturn(time);
 
         return alarm;
     }

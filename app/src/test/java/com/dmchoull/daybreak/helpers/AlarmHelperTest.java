@@ -45,7 +45,7 @@ public class AlarmHelperTest {
     public void setsTheCorrectTime() {
         Alarm alarm = alarmHelper.create(16, 30);
 
-        DateTime time = new DateTime(alarm.getTimeInMillis());
+        DateTime time = new DateTime(alarm.getNextAlarmTime());
 
         assertThat(time.getHourOfDay()).isEqualTo(16);
         assertThat(time.getMinuteOfHour()).isEqualTo(30);
