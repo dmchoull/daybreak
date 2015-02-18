@@ -10,8 +10,6 @@ import android.os.Build;
 import com.dmchoull.daybreak.AlarmReceiver;
 import com.dmchoull.daybreak.models.Alarm;
 
-import org.joda.time.MutableDateTime;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,23 +25,15 @@ public class AlarmHelper {
     }
 
     public Alarm create(Integer hour, Integer minute) {
-        Alarm alarm = new Alarm(getTime(hour, minute));
+        Alarm alarm = new Alarm(hour, minute);
         alarm.save();
-
         return alarm;
-    }
-
-    private long getTime(Integer hour, Integer minute) {
-        MutableDateTime time = MutableDateTime.now();
-        time.setHourOfDay(hour);
-        time.setMinuteOfHour(minute);
-        time.setSecondOfMinute(0);
-        return time.getMillis();
     }
 
     public Alarm update(Long id, Integer hour, Integer minute) {
         Alarm alarm = Alarm.findById(Alarm.class, id);
-        alarm.setTime(getTime(hour, minute));
+        alarm.setHour(hour);
+        alarm.setMinute(minute);
         alarm.save();
         return alarm;
     }
@@ -53,9 +43,9 @@ public class AlarmHelper {
         PendingIntent alarmIntent = createPendingIntent(alarm.getId());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTime(), alarmIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), alarmIntent);
         } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTime(), alarmIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(), alarmIntent);
         }
     }
 

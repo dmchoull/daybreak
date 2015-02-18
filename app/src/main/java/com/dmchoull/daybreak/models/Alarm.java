@@ -3,40 +3,54 @@ package com.dmchoull.daybreak.models;
 import com.orm.SugarRecord;
 
 import org.joda.time.DateTime;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class Alarm extends SugarRecord<Alarm> {
-    long time;
+    int hour;
+    int minute;
 
-    @SuppressWarnings("UnusedDeclaration") public Alarm() {
+    @SuppressWarnings("UnusedDeclaration")
+    public Alarm() {
     }
 
-    public Alarm(long time) {
-        this.time = time;
+    public Alarm(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
     }
 
     public int getHour() {
-        return new DateTime(time).getHourOfDay();
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 
     public int getMinute() {
-        return new DateTime(time).getMinuteOfHour();
+        return minute;
     }
 
-    public long getTime() {
-        return time;
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public long getTimeInMillis() {
+        return getDateTime().getMillis();
+    }
+
+    private DateTime getDateTime() {
+        MutableDateTime time = MutableDateTime.now();
+        time.setHourOfDay(hour);
+        time.setMinuteOfHour(minute);
+        time.setSecondOfMinute(0);
+        return time.toDateTime();
     }
 
     public String toString() {
-        Date date = new Date(time);
-        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        return formatter.format(date);
+        DateTime date = getDateTime();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm:ss");
+        return formatter.print(date);
     }
 }

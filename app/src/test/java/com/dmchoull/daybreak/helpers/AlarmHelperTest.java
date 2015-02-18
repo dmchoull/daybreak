@@ -42,26 +42,23 @@ public class AlarmHelperTest {
     }
 
     @Test
-    public void updatesAlarm() {
-        Long id = createAlarm(12, 30).getId();
-        alarmHelper.update(id, 5, 15);
-
-        Alarm alarm = Alarm.findById(Alarm.class, id);
-        DateTime alarmTime = new DateTime(alarm.getTime());
-
-        assertThat(alarmTime.getHourOfDay()).isEqualTo(5);
-        assertThat(alarmTime.getMinuteOfHour()).isEqualTo(15);
-    }
-
-    @Test
     public void setsTheCorrectTime() {
         Alarm alarm = alarmHelper.create(16, 30);
 
-        DateTime time = new DateTime(alarm.getTime());
+        DateTime time = new DateTime(alarm.getTimeInMillis());
 
         assertThat(time.getHourOfDay()).isEqualTo(16);
         assertThat(time.getMinuteOfHour()).isEqualTo(30);
         assertThat(time.getSecondOfMinute()).isEqualTo(0);
+    }
+
+    @Test
+    public void updatesAlarm() {
+        Long id = createAlarm(12, 30).getId();
+        Alarm alarm = alarmHelper.update(id, 5, 15);
+
+        assertThat(alarm.getHour()).isEqualTo(5);
+        assertThat(alarm.getMinute()).isEqualTo(15);
     }
 
     @Test
