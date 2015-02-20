@@ -6,6 +6,8 @@ import android.content.Context;
 
 import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.helpers.AlarmHelperTest;
+import com.dmchoull.daybreak.ui.AlarmActivity;
+import com.dmchoull.daybreak.ui.AlarmActivityTest;
 import com.dmchoull.daybreak.ui.AlarmListActivity;
 import com.dmchoull.daybreak.ui.AlarmListActivityTest;
 import com.dmchoull.daybreak.ui.EditAlarmActivity;
@@ -26,6 +28,8 @@ import static org.mockito.Mockito.mock;
                 EditAlarmActivityEditTest.class,
                 AlarmListActivity.class,
                 AlarmListActivityTest.class,
+                AlarmActivity.class,
+                AlarmActivityTest.class,
                 AlarmHelper.class,
                 AlarmHelperTest.class
         },
