@@ -7,8 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.dmchoull.daybreak.AlarmReceiver;
 import com.dmchoull.daybreak.models.Alarm;
+import com.dmchoull.daybreak.services.AlarmService;
 
 import java.util.List;
 
@@ -50,8 +50,8 @@ public class AlarmHelper {
     }
 
     private PendingIntent createPendingIntent(Long id) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        return PendingIntent.getBroadcast(context, id.intValue(), intent, 0);
+        Intent intent = new Intent(context, AlarmService.class);
+        return PendingIntent.getService(context, id.intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void delete(Long id) {

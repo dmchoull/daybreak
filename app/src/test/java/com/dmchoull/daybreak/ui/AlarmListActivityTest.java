@@ -1,6 +1,5 @@
 package com.dmchoull.daybreak.ui;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,6 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static com.dmchoull.daybreak.TestFactory.mockAlarm;
+import static com.dmchoull.daybreak.TestHelper.assertActivityStarted;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,16 +58,12 @@ public class AlarmListActivityTest {
         addAlarm.performClick();
 
         Intent startedActivity = getStartedActivity();
-        assertActivityStarted(startedActivity, EditAlarmActivity.class);
+        assertActivityStarted(activity, startedActivity, EditAlarmActivity.class);
     }
 
     private Intent getStartedActivity() {
         ShadowActivity shadowActivity = shadowOf(activity);
         return shadowActivity.getNextStartedActivity();
-    }
-
-    private void assertActivityStarted(Intent startedActivity, Class expectedClass) {
-        assertThat(startedActivity.getComponent()).isEqualTo(new ComponentName(activity, expectedClass));
     }
 
     @Test
@@ -86,7 +82,7 @@ public class AlarmListActivityTest {
         shadowListView.performItemClick(0);
 
         Intent startedActivity = getStartedActivity();
-        assertActivityStarted(startedActivity, EditAlarmActivity.class);
+        assertActivityStarted(activity, startedActivity, EditAlarmActivity.class);
         assertThat(startedActivity.getLongExtra(EditAlarmActivity.EXTRA_ALARM_ID, -1L)).isEqualTo(1L);
     }
 }
