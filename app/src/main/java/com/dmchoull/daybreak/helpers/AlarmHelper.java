@@ -51,6 +51,7 @@ public class AlarmHelper {
 
     private PendingIntent createPendingIntent(Long id) {
         Intent intent = new Intent(context, AlarmService.class);
+        intent.putExtra(AlarmService.EXTRA_ALARM_ID, id);
         return PendingIntent.getService(context, id.intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

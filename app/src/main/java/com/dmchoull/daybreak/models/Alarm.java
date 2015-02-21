@@ -59,4 +59,19 @@ public class Alarm extends SugarRecord<Alarm> {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm:ss");
         return formatter.print(date);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Alarm alarm = (Alarm) o;
+
+        return getId().equals(alarm.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

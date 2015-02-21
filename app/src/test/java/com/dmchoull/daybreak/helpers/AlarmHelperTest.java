@@ -94,6 +94,18 @@ public class AlarmHelperTest {
     }
 
     @Test
+    public void setPassesAlarmIdToAlarmService() {
+        Long alarmId = 1L;
+        Alarm alarm = mockAlarm(alarmId, 1423445044113L);
+        alarmHelper.set(alarm);
+
+        verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
+
+        ShadowPendingIntent pendingIntent = shadowOf(pendingIntentCaptor.getValue());
+        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmService.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
+    }
+
+    @Test
     public void deletesAlarm() {
         Long id = createAlarm(12, 30).getId();
         alarmHelper.delete(id);
