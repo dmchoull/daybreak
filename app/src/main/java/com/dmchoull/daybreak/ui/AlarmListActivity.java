@@ -22,7 +22,7 @@ public class AlarmListActivity extends DaybreakBaseActivity {
         setContentView(R.layout.alarm_list);
 
         ListView alarmList = (ListView) findViewById(R.id.alarm_list);
-        adapter = new AlarmListAdapter(this, R.layout.alarm_list_item, alarmHelper.getAll());
+        adapter = new AlarmListAdapter(this, alarmHelper.getAll());
         alarmList.setAdapter(adapter);
 
         alarmList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

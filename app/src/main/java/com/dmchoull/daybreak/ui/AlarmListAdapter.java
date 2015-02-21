@@ -13,11 +13,11 @@ import com.dmchoull.daybreak.models.Alarm;
 
 import java.util.List;
 
-public class AlarmListAdapter extends ArrayAdapter<Alarm> {
+class AlarmListAdapter extends ArrayAdapter<Alarm> {
     private final Context context;
 
-    public AlarmListAdapter(Context context, int resource, List<Alarm> objects) {
-        super(context, resource, objects);
+    public AlarmListAdapter(Context context, List<Alarm> objects) {
+        super(context, R.layout.alarm_list_item, objects);
         this.context = context;
     }
 
