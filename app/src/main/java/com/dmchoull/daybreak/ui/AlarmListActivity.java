@@ -20,6 +20,10 @@ public class AlarmListActivity extends DaybreakBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_list);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
 
         ListView alarmList = (ListView) findViewById(R.id.alarm_list);
         adapter = new AlarmListAdapter(this, alarmHelper.getAll());
@@ -35,6 +39,7 @@ public class AlarmListActivity extends DaybreakBaseActivity {
 
     public void addAlarm(View view) {
         Intent intent = new Intent(this, EditAlarmActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -47,6 +52,7 @@ public class AlarmListActivity extends DaybreakBaseActivity {
     public void showAlarm(long id) {
         Intent intent = new Intent(this, EditAlarmActivity.class);
         intent.putExtra(EditAlarmActivity.EXTRA_ALARM_ID, id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 }
