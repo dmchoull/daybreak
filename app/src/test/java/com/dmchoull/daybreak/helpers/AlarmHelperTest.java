@@ -3,9 +3,9 @@ package com.dmchoull.daybreak.helpers;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 
+import com.dmchoull.daybreak.receivers.AlarmReceiver;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.models.Alarm;
-import com.dmchoull.daybreak.services.AlarmService;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -88,9 +88,9 @@ public class AlarmHelperTest {
         verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
         ShadowPendingIntent pendingIntent = shadowOf(pendingIntentCaptor.getValue());
-        assertTrue(pendingIntent.isServiceIntent());
+        assertTrue(pendingIntent.isBroadcastIntent());
         assertThat(pendingIntent.getRequestCode()).as("request code").isEqualTo(alarmId.intValue());
-        assertActivityStarted(Robolectric.application, pendingIntent.getSavedIntent(), AlarmService.class);
+        assertActivityStarted(Robolectric.application, pendingIntent.getSavedIntent(), AlarmReceiver.class);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AlarmHelperTest {
         verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
         ShadowPendingIntent pendingIntent = shadowOf(pendingIntentCaptor.getValue());
-        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmService.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
+        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
     }
 
     @Test

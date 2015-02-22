@@ -6,8 +6,7 @@ import android.content.Context;
 
 import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.helpers.AlarmHelperTest;
-import com.dmchoull.daybreak.services.AlarmService;
-import com.dmchoull.daybreak.services.AlarmServiceTest;
+import com.dmchoull.daybreak.receivers.AlarmReceiver;
 import com.dmchoull.daybreak.ui.AlarmActivity;
 import com.dmchoull.daybreak.ui.AlarmActivityTest;
 import com.dmchoull.daybreak.ui.AlarmListActivity;
@@ -34,8 +33,8 @@ import static org.mockito.Mockito.mock;
                 AlarmActivityTest.class,
                 AlarmHelper.class,
                 AlarmHelperTest.class,
-                AlarmService.class,
-                AlarmServiceTest.class
+                AlarmReceiver.class,
+                AlarmReceiverTest.class
         },
         overrides = true
 )

@@ -42,7 +42,7 @@
             android:name=".ui.AlarmActivity">
         </activity>
 
-        <service android:name=".services.AlarmService"/>
+        <receiver android:name=".receivers.AlarmReceiver"/>
     </application>
 
 </manifest>
