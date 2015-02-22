@@ -21,5 +21,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="106dp"
         android:text="Dismiss"
+        android:onClick="dismissAlarm"
         android:textSize="38sp"/>
 </RelativeLayout>

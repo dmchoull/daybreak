@@ -40,6 +40,8 @@
         </activity>
 
         <activity
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:name=".ui.AlarmActivity">
         </activity>
 

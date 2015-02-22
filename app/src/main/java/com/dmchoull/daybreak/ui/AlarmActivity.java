@@ -1,6 +1,7 @@
 package com.dmchoull.daybreak.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.dmchoull.daybreak.R;
@@ -18,5 +19,9 @@ public class AlarmActivity extends DaybreakBaseActivity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+    }
+
+    public void dismissAlarm(View view) {
+        finish();
     }
 }

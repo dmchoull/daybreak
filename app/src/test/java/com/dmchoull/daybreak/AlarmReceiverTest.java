@@ -43,6 +43,7 @@ public class AlarmReceiverTest {
         Intent startedIntent = shadowOf(Robolectric.application).peekNextStartedActivity();
         assertActivityStarted(Robolectric.application, startedIntent, AlarmActivity.class);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK).isEqualTo(Intent.FLAG_ACTIVITY_NEW_TASK);
+        assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NO_USER_ACTION).isEqualTo(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
     }
 
     @Test
