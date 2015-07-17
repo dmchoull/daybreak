@@ -56,7 +56,7 @@ public class Alarm extends SugarRecord {
 
     public String toString() {
         DateTime date = getDateTime();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("h:mm:ss a");
         return formatter.print(date);
     }
 
