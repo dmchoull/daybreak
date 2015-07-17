@@ -7,7 +7,7 @@ import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class Alarm extends SugarRecord<Alarm> {
+public class Alarm extends SugarRecord {
     int hour;
     int minute;
 
