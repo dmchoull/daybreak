@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.TimePicker;
 
+import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.R;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.helpers.AlarmHelper;
@@ -14,7 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
 import javax.inject.Inject;
@@ -25,8 +28,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class EditAlarmActivityNewTest {
     @Inject AlarmHelper alarmHelper;
 
@@ -63,7 +66,7 @@ public class EditAlarmActivityNewTest {
     public void launchesAlarmListActivityAfterAlarmSaved() {
         saveButton.performClick();
 
-        ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
+        ShadowActivity shadowActivity = Shadows.shadowOf(activity);
         Intent startedActivity = shadowActivity.getNextStartedActivity();
         assertThat(startedActivity.getComponent()).isEqualTo(new ComponentName(activity, AlarmListActivity.class));
     }

@@ -1,6 +1,5 @@
 package com.dmchoull.daybreak;
 
-
 import android.content.Intent;
 
 import com.dmchoull.daybreak.helpers.AlarmHelper;
@@ -11,8 +10,11 @@ import com.dmchoull.daybreak.ui.AlarmActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLooper;
 
 import javax.inject.Inject;
 
@@ -20,9 +22,9 @@ import static com.dmchoull.daybreak.TestFactory.createAlarm;
 import static com.dmchoull.daybreak.TestHelper.assertActivityStarted;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Robolectric.shadowOf;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class AlarmReceiverTest {
     @Inject AlarmHelper alarmHelper;
 
@@ -35,20 +37,20 @@ public class AlarmReceiverTest {
         alarm = createAlarm(9, 0);
         Intent intent = new Intent();
         intent.putExtra(AlarmReceiver.EXTRA_ALARM_ID, alarm.getId());
-        new AlarmReceiver().onReceive(Robolectric.application, intent);
+        new AlarmReceiver().onReceive(RuntimeEnvironment.application, intent);
     }
 
     @Test
     public void startsAlarmActivityWhenStarted() {
-        Intent startedIntent = shadowOf(Robolectric.application).peekNextStartedActivity();
-        assertActivityStarted(Robolectric.application, startedIntent, AlarmActivity.class);
+        Intent startedIntent = Shadows.shadowOf(RuntimeEnvironment.application).peekNextStartedActivity();
+        assertActivityStarted(RuntimeEnvironment.application, startedIntent, AlarmActivity.class);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK).isEqualTo(Intent.FLAG_ACTIVITY_NEW_TASK);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NO_USER_ACTION).isEqualTo(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
     }
 
     @Test
     public void resetsAlarmWhenStarted() {
-        Robolectric.runUiThreadTasksIncludingDelayedTasks();
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         verify(alarmHelper).set(alarm);
     }
 }

@@ -1,13 +1,15 @@
 package com.dmchoull.daybreak.receivers;
 
+import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.helpers.AlarmHelper;
 import com.dmchoull.daybreak.models.Alarm;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
 import java.util.Arrays;
@@ -19,7 +21,8 @@ import static com.dmchoull.daybreak.TestHelper.init;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class BootCompletedReceiverTest {
     @Inject AlarmHelper alarmHelper;
     private Alarm alarm1;
@@ -39,7 +42,7 @@ public class BootCompletedReceiverTest {
     @Test
     public void setsAllAlarmsWhenTriggered() {
         BootCompletedReceiver receiver = new BootCompletedReceiver();
-        receiver.onReceive(Robolectric.application, null);
+        receiver.onReceive(RuntimeEnvironment.application, null);
 
         verify(alarmHelper).set(alarm1);
         verify(alarmHelper).set(alarm2);

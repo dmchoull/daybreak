@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.R;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.helpers.AlarmHelper;
@@ -13,7 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowListView;
 
@@ -27,9 +30,9 @@ import static com.dmchoull.daybreak.TestHelper.assertActivityStarted;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.robolectric.Robolectric.shadowOf;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class AlarmListActivityTest {
     @Inject AlarmHelper alarmHelper;
 
@@ -62,7 +65,7 @@ public class AlarmListActivityTest {
     }
 
     private Intent getStartedActivity() {
-        ShadowActivity shadowActivity = shadowOf(activity);
+        ShadowActivity shadowActivity = Shadows.shadowOf(activity);
         return shadowActivity.getNextStartedActivity();
     }
 
@@ -78,7 +81,7 @@ public class AlarmListActivityTest {
 
     @Test
     public void launchesActivityToEditExistingAlarm() {
-        ShadowListView shadowListView = shadowOf(alarmList);
+        ShadowListView shadowListView = Shadows.shadowOf(alarmList);
         shadowListView.performItemClick(0);
 
         Intent startedActivity = getStartedActivity();

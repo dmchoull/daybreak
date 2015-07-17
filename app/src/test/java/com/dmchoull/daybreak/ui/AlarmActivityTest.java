@@ -2,18 +2,21 @@ package com.dmchoull.daybreak.ui;
 
 import android.view.WindowManager;
 
+import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.TestHelper;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class AlarmActivityTest {
     private AlarmActivity activity;
 

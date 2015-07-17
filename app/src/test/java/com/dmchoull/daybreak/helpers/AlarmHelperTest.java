@@ -3,9 +3,10 @@ package com.dmchoull.daybreak.helpers;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 
-import com.dmchoull.daybreak.receivers.AlarmReceiver;
+import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.models.Alarm;
+import com.dmchoull.daybreak.receivers.AlarmReceiver;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -13,8 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowPendingIntent;
 
 import javax.inject.Inject;
@@ -29,9 +32,9 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Robolectric.shadowOf;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class AlarmHelperTest {
     @Inject AlarmManager alarmManager;
     @Captor ArgumentCaptor<PendingIntent> pendingIntentCaptor;
@@ -41,7 +44,7 @@ public class AlarmHelperTest {
     @Before
     public void setUp() {
         TestHelper.init(this);
-        alarmHelper = new AlarmHelper(Robolectric.application.getBaseContext(), alarmManager);
+        alarmHelper = new AlarmHelper(RuntimeEnvironment.application.getBaseContext(), alarmManager);
     }
 
     @Test
@@ -87,10 +90,10 @@ public class AlarmHelperTest {
 
         verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
-        ShadowPendingIntent pendingIntent = shadowOf(pendingIntentCaptor.getValue());
+        ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertTrue(pendingIntent.isBroadcastIntent());
         assertThat(pendingIntent.getRequestCode()).as("request code").isEqualTo(alarmId.intValue());
-        assertActivityStarted(Robolectric.application, pendingIntent.getSavedIntent(), AlarmReceiver.class);
+        assertActivityStarted(RuntimeEnvironment.application, pendingIntent.getSavedIntent(), AlarmReceiver.class);
     }
 
     @Test
@@ -101,7 +104,7 @@ public class AlarmHelperTest {
 
         verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
-        ShadowPendingIntent pendingIntent = shadowOf(pendingIntentCaptor.getValue());
+        ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
     }
 

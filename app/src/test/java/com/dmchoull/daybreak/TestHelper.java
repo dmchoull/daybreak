@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -12,7 +12,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class TestHelper {
     public static void init(Object testCase) {
         initMocks(testCase);
-        ((Injector) Robolectric.application).inject(testCase);
+        ((Injector) RuntimeEnvironment.application).inject(testCase);
     }
 
     public static void assertActivityStarted(Context context, Intent startedActivity, Class expectedClass) {
