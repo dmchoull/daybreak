@@ -4,8 +4,7 @@ buildscript {
         maven { url 'https://www.testfairy.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
-        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.1'
+        classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'com.testfairy.plugins.gradle:testfairy:1.+'
     }
 }
