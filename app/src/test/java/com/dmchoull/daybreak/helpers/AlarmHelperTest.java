@@ -79,7 +79,7 @@ public class AlarmHelperTest {
         Alarm alarm = mockAlarm(1L, 1423445044113L);
         alarmHelper.set(alarm);
 
-        verify(alarmManager).set(eq(AlarmManager.RTC_WAKEUP), eq(1423445044113L), any(PendingIntent.class));
+        verify(alarmManager).setExact(eq(AlarmManager.RTC_WAKEUP), eq(1423445044113L), any(PendingIntent.class));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AlarmHelperTest {
         Alarm alarm = mockAlarm(alarmId, 1423445044113L);
         alarmHelper.set(alarm);
 
-        verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
+        verify(alarmManager).setExact(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
         ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertTrue(pendingIntent.isBroadcastIntent());
@@ -102,7 +102,7 @@ public class AlarmHelperTest {
         Alarm alarm = mockAlarm(alarmId, 1423445044113L);
         alarmHelper.set(alarm);
 
-        verify(alarmManager).set(anyInt(), anyLong(), pendingIntentCaptor.capture());
+        verify(alarmManager).setExact(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
         ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
