@@ -1,5 +1,6 @@
 package com.dmchoull.daybreak.ui;
 
+import android.media.RingtoneManager;
 import android.view.WindowManager;
 
 import com.dmchoull.daybreak.BuildConfig;
@@ -11,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowMediaPlayer;
+import org.robolectric.shadows.util.DataSource;
 import org.robolectric.util.ActivityController;
 
 import static org.junit.Assert.assertTrue;
@@ -24,8 +27,13 @@ public class AlarmActivityTest {
     public void setUp() {
         TestHelper.init(this);
 
-        ActivityController<AlarmActivity> controller = Robolectric.buildActivity(AlarmActivity.class).create().start().resume();
+        ActivityController<AlarmActivity> controller = Robolectric.buildActivity(AlarmActivity.class);
         activity = controller.get();
+
+        DataSource dataSource = DataSource.toDataSource(activity, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+        ShadowMediaPlayer.addMediaInfo(dataSource, new ShadowMediaPlayer.MediaInfo(1, 0));
+
+        controller.create().start().resume();
     }
 
     @Test
