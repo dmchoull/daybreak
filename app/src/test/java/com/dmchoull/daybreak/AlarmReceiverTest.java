@@ -10,7 +10,7 @@ import com.dmchoull.daybreak.ui.AlarmActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
@@ -23,7 +23,7 @@ import static com.dmchoull.daybreak.TestHelper.assertActivityStarted;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class AlarmReceiverTest {
     @Inject AlarmHelper alarmHelper;

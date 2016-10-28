@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId 'com.dmchoull.daybreak'
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName '0.0.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -33,7 +33,10 @@ dependencies {
     compile 'com.github.satyan:sugar:1.4'
     apk 'com.squareup.dagger:dagger:1.2.5'
 
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'org.robolectric:robolectric:3.1.3'
+    testCompile 'org.robolectric:shadows-support-v4:3.1.3'
+    // this library missing for API 23 in Robolectric
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.2.9'
     testCompile 'com.google.dexmaker:dexmaker:1.2'
