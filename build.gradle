@@ -6,7 +6,7 @@ buildscript {
         maven { url 'https://www.testfairy.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.testfairy.plugins.gradle:testfairy:1.+'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
