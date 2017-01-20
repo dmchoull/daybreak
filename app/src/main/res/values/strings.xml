@@ -6,4 +6,7 @@
     <string name="new_alarm">New</string>
     <string name="delete">Delete</string>
 
+    <string name="dismiss">Dismiss</string>
+    <string name="snooze">Snooze</string>
+
 </resources>

@@ -9,10 +9,17 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.dmchoull.daybreak.R;
+import com.dmchoull.daybreak.helpers.AlarmHelper;
+
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 public class AlarmActivity extends DaybreakBaseActivity {
+    @Inject AlarmHelper alarmHelper;
+
     private MediaPlayer mediaPlayer;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,13 @@ public class AlarmActivity extends DaybreakBaseActivity {
     }
 
     public void dismissAlarm(View view) {
+        finish();
+    }
+
+    public void snoozeAlarm(View view) {
+        // TODO: make snooze time configurable
+        DateTime snoozeTime = DateTime.now().plusSeconds(10);
+        alarmHelper.set(snoozeTime.getMillis());
         finish();
     }
 }

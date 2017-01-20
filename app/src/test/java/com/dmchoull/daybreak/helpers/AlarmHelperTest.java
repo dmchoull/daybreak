@@ -75,7 +75,7 @@ public class AlarmHelperTest {
     }
 
     @Test
-    public void setsAlarm() {
+    public void setsAlarmGivenAlarm() {
         Alarm alarm = mockAlarm(1L, 1423445044113L);
         alarmHelper.set(alarm);
 
@@ -97,7 +97,7 @@ public class AlarmHelperTest {
     }
 
     @Test
-    public void setPassesAlarmIdToAlarmService() {
+    public void setPassesAlarmIdToAlarmReceiver() {
         Long alarmId = 1L;
         Alarm alarm = mockAlarm(alarmId, 1423445044113L);
         alarmHelper.set(alarm);
@@ -106,6 +106,24 @@ public class AlarmHelperTest {
 
         ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
+    }
+
+    @Test
+    public void setsAlarmGivenTimeInMillis() {
+        alarmHelper.set(1423445044113L);
+
+        verify(alarmManager).setExact(eq(AlarmManager.RTC_WAKEUP), eq(1423445044113L), any(PendingIntent.class));
+    }
+
+    @Test
+    public void setDoesNotPassAlarmIdToAlarmReceiverWhenGivenTimeInMillis() {
+        long alarmTime = 1423445044113L;
+        alarmHelper.set(alarmTime);
+
+        verify(alarmManager).setExact(anyInt(), anyLong(), pendingIntentCaptor.capture());
+
+        ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
+        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(-1L);
     }
 
     @Test

@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import static com.dmchoull.daybreak.TestFactory.createAlarm;
 import static com.dmchoull.daybreak.TestHelper.assertActivityStarted;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
@@ -33,15 +34,23 @@ public class AlarmReceiverTest {
     @Before
     public void setUp() throws Exception {
         TestHelper.init(this);
-
         alarm = createAlarm(9, 0);
+    }
+
+    private void triggerWithId() {
         Intent intent = new Intent();
         intent.putExtra(AlarmReceiver.EXTRA_ALARM_ID, alarm.getId());
         new AlarmReceiver().onReceive(RuntimeEnvironment.application, intent);
     }
 
+    private void triggerWithoutId() {
+        new AlarmReceiver().onReceive(RuntimeEnvironment.application, new Intent());
+    }
+
     @Test
     public void startsAlarmActivityWhenStarted() {
+        triggerWithId();
+
         Intent startedIntent = Shadows.shadowOf(RuntimeEnvironment.application).peekNextStartedActivity();
         assertActivityStarted(RuntimeEnvironment.application, startedIntent, AlarmActivity.class);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK).isEqualTo(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -49,8 +58,18 @@ public class AlarmReceiverTest {
     }
 
     @Test
-    public void resetsAlarmWhenStarted() {
+    public void resetsAlarmWhenStartedWithAlarmIdExtra() {
+        triggerWithId();
+
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         verify(alarmHelper).set(alarm);
+    }
+
+    @Test
+    public void doesNotResetWhenStartedWithoutAlarmIdExtra() {
+        triggerWithoutId();
+
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+        verify(alarmHelper, never()).set(alarm);
     }
 }

@@ -34,6 +34,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void resetAlarm(final long alarmId) {
+        if (alarmId < 1L) {
+            return;
+        }
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
