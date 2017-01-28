@@ -1,5 +1,6 @@
 package com.dmchoull.daybreak.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -86,5 +87,15 @@ public class EditAlarmActivity extends DaybreakBaseActivity {
         }
 
         return alarm;
+    }
+
+    public void testAlarm(View view) {
+        Context context = getApplicationContext();
+
+        Intent alarmIntent = new Intent(context, AlarmActivity.class);
+        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+        alarmIntent.putExtra(AlarmActivity.EXTRA_ALARM_ID, alarmId);
+
+        context.startActivity(alarmIntent);
     }
 }

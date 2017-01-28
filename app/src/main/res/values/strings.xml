@@ -6,6 +6,8 @@
     <string name="new_alarm">New</string>
     <string name="delete">Delete</string>
 
+    <string name="test_alarm">Test Alarm</string>
+
     <string name="dismiss">Dismiss</string>
     <string name="snooze">Snooze</string>
 

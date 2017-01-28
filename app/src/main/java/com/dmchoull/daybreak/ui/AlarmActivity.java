@@ -18,6 +18,8 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 public class AlarmActivity extends DaybreakBaseActivity {
+    public static final String EXTRA_ALARM_ID = "AlarmId";
+
     @Inject AlarmHelper alarmHelper;
 
     private MediaPlayer mediaPlayer;
