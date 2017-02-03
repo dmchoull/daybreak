@@ -21,14 +21,17 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ((Injector) context.getApplicationContext()).inject(this);
 
-        startAlarmActivity(context);
+        long alarmId = intent.getLongExtra(EXTRA_ALARM_ID, 0L);
 
-        resetAlarm(intent.getLongExtra(EXTRA_ALARM_ID, 0L));
+        startAlarmActivity(context, alarmId);
+
+        resetAlarm(alarmId);
     }
 
-    private void startAlarmActivity(Context context) {
+    private void startAlarmActivity(Context context, long alarmId) {
         Intent alarmIntent = new Intent(context, AlarmActivity.class);
         alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+        alarmIntent.putExtra(AlarmActivity.EXTRA_ALARM_ID, alarmId);
 
         context.startActivity(alarmIntent);
     }

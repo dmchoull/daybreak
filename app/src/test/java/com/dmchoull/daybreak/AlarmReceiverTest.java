@@ -55,6 +55,7 @@ public class AlarmReceiverTest {
         assertActivityStarted(RuntimeEnvironment.application, startedIntent, AlarmActivity.class);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK).isEqualTo(Intent.FLAG_ACTIVITY_NEW_TASK);
         assertThat(startedIntent.getFlags() & Intent.FLAG_ACTIVITY_NO_USER_ACTION).isEqualTo(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+        assertThat(startedIntent.getLongExtra(AlarmActivity.EXTRA_ALARM_ID, 0L)).isEqualTo(alarm.getId());
     }
 
     @Test
