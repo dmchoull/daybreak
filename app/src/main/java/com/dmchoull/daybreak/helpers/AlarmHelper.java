@@ -10,6 +10,8 @@ import android.os.Build;
 import com.dmchoull.daybreak.models.Alarm;
 import com.dmchoull.daybreak.receivers.AlarmReceiver;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,23 +42,14 @@ public class AlarmHelper {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void set(Alarm alarm) {
-        PendingIntent alarmIntent = createPendingIntent(alarm.getId(), true);
+        PendingIntent alarmIntent = createPendingIntent(alarm.getId());
         setAlarm(alarm.getNextAlarmTime(), alarmIntent);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void set(long alarmTimeInMillis) {
-        PendingIntent alarmIntent = createPendingIntent(alarmTimeInMillis, false);
-        setAlarm(alarmTimeInMillis, alarmIntent);
-    }
-
-    private PendingIntent createPendingIntent(Long id, boolean includeIdInExtras) {
+    private PendingIntent createPendingIntent(Long id) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setPackage(getClass().getPackage().toString());
-
-        if (includeIdInExtras) {
-            intent.putExtra(AlarmReceiver.EXTRA_ALARM_ID, id);
-        }
+        intent.putExtra(AlarmReceiver.EXTRA_ALARM_ID, id);
 
         return PendingIntent.getBroadcast(context, id.intValue(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -69,8 +62,13 @@ public class AlarmHelper {
         }
     }
 
+    public void snooze(Alarm alarm, DateTime snoozeTime) {
+        PendingIntent alarmIntent = createPendingIntent(alarm.getId());
+        setAlarm(snoozeTime.getMillis(), alarmIntent);
+    }
+
     public void delete(Long id) {
-        PendingIntent alarmIntent = createPendingIntent(id, true);
+        PendingIntent alarmIntent = createPendingIntent(id);
         alarmManager.cancel(alarmIntent);
 
         Alarm.deleteAll(Alarm.class, "id = ?", id.toString());

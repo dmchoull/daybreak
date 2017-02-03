@@ -1,11 +1,13 @@
 package com.dmchoull.daybreak.ui;
 
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.view.WindowManager;
 
 import com.dmchoull.daybreak.BuildConfig;
 import com.dmchoull.daybreak.TestHelper;
 import com.dmchoull.daybreak.helpers.AlarmHelper;
+import com.dmchoull.daybreak.models.Alarm;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -21,6 +23,7 @@ import org.robolectric.util.ActivityController;
 
 import javax.inject.Inject;
 
+import static com.dmchoull.daybreak.TestFactory.createAlarm;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
@@ -30,12 +33,20 @@ public class AlarmActivityTest {
     @Inject AlarmHelper alarmHelper;
 
     private AlarmActivity activity;
+    private Alarm alarm;
 
     @Before
     public void setUp() {
         TestHelper.init(this);
 
-        ActivityController<AlarmActivity> controller = Robolectric.buildActivity(AlarmActivity.class);
+        alarm = createAlarm(9, 0);
+
+        Intent intent = new Intent();
+        intent.putExtra(AlarmActivity.EXTRA_ALARM_ID, alarm.getId());
+
+        ActivityController<AlarmActivity> controller = Robolectric.buildActivity(AlarmActivity.class)
+                .withIntent(intent);
+
         activity = controller.get();
 
         DataSource dataSource = DataSource.toDataSource(activity, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
@@ -60,6 +71,6 @@ public class AlarmActivityTest {
 
         activity.snoozeAlarm(null);
 
-        verify(alarmHelper).set(currentTime.plusSeconds(10).getMillis());
+        verify(alarmHelper).snooze(alarm, currentTime.plusSeconds(10));
     }
 }

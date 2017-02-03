@@ -93,37 +93,33 @@ public class AlarmHelperTest {
         ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
         assertTrue(pendingIntent.isBroadcastIntent());
         assertThat(pendingIntent.getRequestCode()).as("request code").isEqualTo(alarmId.intValue());
+        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
         assertActivityStarted(RuntimeEnvironment.application, pendingIntent.getSavedIntent(), AlarmReceiver.class);
     }
 
     @Test
-    public void setPassesAlarmIdToAlarmReceiver() {
+    public void snoozesAlarmUntilGivenTime() {
+        Alarm alarm = mockAlarm(1L, 1423445044113L);
+        DateTime snoozeTime = DateTime.now().plusSeconds(10);
+
+        alarmHelper.snooze(alarm, snoozeTime);
+
+        verify(alarmManager).setExact(eq(AlarmManager.RTC_WAKEUP), eq(snoozeTime.getMillis()), any(PendingIntent.class));
+    }
+
+    @Test
+    public void snoozeCreatesPendingIntentForAlarmService() {
         Long alarmId = 1L;
         Alarm alarm = mockAlarm(alarmId, 1423445044113L);
-        alarmHelper.set(alarm);
+        alarmHelper.snooze(alarm, DateTime.now().plusSeconds(10));
 
         verify(alarmManager).setExact(anyInt(), anyLong(), pendingIntentCaptor.capture());
 
         ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
+        assertTrue(pendingIntent.isBroadcastIntent());
+        assertThat(pendingIntent.getRequestCode()).as("request code").isEqualTo(alarmId.intValue());
         assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(alarmId);
-    }
-
-    @Test
-    public void setsAlarmGivenTimeInMillis() {
-        alarmHelper.set(1423445044113L);
-
-        verify(alarmManager).setExact(eq(AlarmManager.RTC_WAKEUP), eq(1423445044113L), any(PendingIntent.class));
-    }
-
-    @Test
-    public void setDoesNotPassAlarmIdToAlarmReceiverWhenGivenTimeInMillis() {
-        long alarmTime = 1423445044113L;
-        alarmHelper.set(alarmTime);
-
-        verify(alarmManager).setExact(anyInt(), anyLong(), pendingIntentCaptor.capture());
-
-        ShadowPendingIntent pendingIntent = Shadows.shadowOf(pendingIntentCaptor.getValue());
-        assertThat(pendingIntent.getSavedIntent().getLongExtra(AlarmReceiver.EXTRA_ALARM_ID, -1L)).isEqualTo(-1L);
+        assertActivityStarted(RuntimeEnvironment.application, pendingIntent.getSavedIntent(), AlarmReceiver.class);
     }
 
     @Test
